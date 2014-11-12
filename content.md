@@ -120,10 +120,10 @@ Proof of NTM and TM equivalence: 3-tape TM as above. If any simulated branch acc
 
 Why BFS instead of DFS for a NTM? Because DFS may go forever down a branch, and BFS ensures that the NTM will visit every node in the tree until it encounters and accepting configuration!
 
-<!--\vfill \columnbreak-->
 ## Enumerators
 An enumerator is a special type of TM with two tapes: one work tape (same as a normal tape) and one write-only printer (or output tape). Writes strings separated by a # to output tape. \\(L(E) = \{w\, :\, E\; outputs\; w\; eventually\}\\). A language is **enumerable** if it is the language of some enumerator. Enumerators do not necessarily halt.
 
+<!--\vfill \columnbreak-->
 ## Enumerabilty, Recognizability
 A language is *enumerable* \\(\Leftrightarrow\\) it is *recognizable*.
 
@@ -168,6 +168,8 @@ Proof: Reduce from \\(A_{TM}\\). Define decider for \\(A_{TM}\\), where \\(M_{y/
 
 **Interleaving trick**: For each 1,2,3... run \\(M\\) on the first NUM strings for up to NUM steps. If \\(M\\) ever accepts, BLAH.
 
+**Computation Histories**: Sequence of configurations for \\(M\\) on \\(2\\) \\(C_1,C_2,...C_l\\) where \\(C_1\\) is the initial configuration, and each \\(C_i\\) follows from \\(C_{i-1}\\) legally according to the rules of \\(M\\). Accepting histories are where \\(C_l\\) is an accepting configuration, and rejecting histories are \\(C_l\\) as a rejecting configuration.
+
 ## Recursion Theorem
 
 Let \\(M\\) be any TM computing a function \\(m:\Sigma^* * \Sigma^*\to \Sigma^*\\) which is machine * string to anything. There exists some machine \\(R\\) computing \\(r: \Sigma^*\to\Sigma^*\\) where \\(r(w) = m(<R>, w)\\) for all \\(w\\). In short: *we can write TMs that obtain their own descriptions*.
@@ -183,7 +185,9 @@ We have a direct contradiction here: \\(D\\) should be minimal, but \\(C\\) is s
 ## Proof examples
 \\(A_{TM}\\): proof via diagonalization: assume some \\(H\\) decides \\(A_{TM}\\). Build a TM \\(D\\) such that "on input \\(<M>\\) run \\(H\\) on \\(<M, <M>\\) and output the opposite answer'. This is a decider because \\(H\\) is a decider -- \\(D\\) accepts all machines that reject when given their own description. What happens when we run \\(D\\) on \\(<D>\\)? We get a contradiciton: \\(D\\) accepts \\(<D>\Leftrightarrow H\\) rejects \\(<D, <D>>\Leftrightarrow D\\) rejects \\(<D>\\).
 
-Diagonalization: in essence construct a new valid machine or sequence that contradicts itself or the proof mechanism. Proving that languages are not countably infinite: Assume we can list all subsets of \\(\{0,1\}^* : S_1,S_2...\\). We can construct a new subset \\(S\\) that we've missed as follows: for each \\(i\in \mathcal{N}\\) if \\(w_i\notin S_i\\) then \\(w_i\in S\\). Clearly \\(S\subseteq \{0,1\}^*\\) but \\(\forall i : S\neq S_i\\). We have here a contradiction.
+**Diagonalization**: in essence construct a new valid machine or sequence that contradicts itself or the proof mechanism. Proving that languages are not countably infinite: Assume we can list all subsets of \\(\{0,1\}^* : S_1,S_2...\\). We can construct a new subset \\(S\\) that we've missed as follows: for each \\(i\in \mathcal{N}\\) if \\(w_i\notin S_i\\) then \\(w_i\in S\\). Clearly \\(S\subseteq \{0,1\}^*\\) but \\(\forall i : S\neq S_i\\). We have here a contradiction.
+
+\\(ALL_{CFG} = \{ <G> : G\\) is a CFG and \\(L(G)=\Sigma^* \}\\). Proof: reduce from \\(A_{TM}\\), design a CFG \\(G\\) that generates all strings iff \\(M\\) does not accept \\(w\\) otherwise do not generate the accepting configuration history for it. \\(G\\) generates all strings that a) don't start with \\(C_1\\) b) don't end with an accepting configuration or c) where some \\(C_i\\) does not follow legally from its prior. If \\(M\\) rejects \\(w\\) then there is a string that exists that \\(G\\) does not generate: the string beginning with \\(C_1\\), ending in an accepting configuration, and where each \\(C_i\\) is built legally upon its predecessor.
 
 ## Reductions 'relative to...'
 'Y decidable relative to X means that Y can be decided given an Oracle for X -- meaning that \\(M^X\\) could decide Y given an oracle for X.
