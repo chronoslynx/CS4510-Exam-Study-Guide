@@ -134,6 +134,7 @@ Proof: recognizable \\(\Rightarrow\\) enumerable. Given TM M that recognizes L b
 For any string \\(w\in \Sigma^*\\) \\(E\\) eventually runs M for any desired finite number of steps.
 
 # Reductions
+Quick fact: the set of all languages is **not** countably infinite.
 
 Mapping reduction notes: if \\(A\leq_M B\\) then mapping function \\(f\\) has to fulfill: \\(w\in A \Leftrightarrow f(w)\in B\\). This converts an instance of \\(A\\) into an instance of \\(B\\).
 
@@ -178,3 +179,12 @@ We have above a machine that outputs the opposite of what it is supposed to outp
 Pf: \\(MIN_{TM}\\) is unrecognizable. Assume for contradiction that \\(E\\) enumerates \\(MIN_{TM}\\). Consider \\(C\\): "On input \\(w\\): get \\(<C>\\) via recursion thm. Run \\(E\\) until it outputs some \\(<D>\\) that is longer than \\(<C>\\). Simulate \\(D\\) on \\(w\\)"
 
 We have a direct contradiction here: \\(D\\) should be minimal, but \\(C\\) is shorter **and** is equivalent to \\(D\\)! Contradiction, \\(D\\) cannot then be minimal. \\(E\\) will eventually output such a \\(<D>\\) because \\(MIN_{TM}\\) is infinite.
+
+## Proof examples
+\\(A_{TM}\\): proof via diagonalization: assume some \\(H\\) decides \\(A_{TM}\\). Build a TM \\(D\\) such that "on input \\(<M>\\) run \\(H\\) on \\(<M, <M>\\) and output the opposite answer'. This is a decider because \\(H\\) is a decider -- \\(D\\) accepts all machines that reject when given their own description. What happens when we run \\(D\\) on \\(<D>\\)? We get a contradiciton: \\(D\\) accepts \\(<D>\Leftrightarrow H\\) rejects \\(<D, <D>>\Leftrightarrow D\\) rejects \\(<D>\\).
+
+Diagonalization: in essence construct a new valid machine or sequence that contradicts itself or the proof mechanism. Proving that languages are not countably infinite: Assume we can list all subsets of \\(\{0,1\}^* : S_1,S_2...\\). We can construct a new subset \\(S\\) that we've missed as follows: for each \\(i\in \mathbb{N}\\) if \\(w_i\notin S_i\\) then \\(w_i\in S\\). Clearly \\(S\subseteq \{0,1\}^*\\) but \\(\forall i : S\neq S_i\\). We have here a contradiction.
+
+## Reductions 'relative to...'
+'Y decidable relative to X means that Y can be decided given an Oracle for X -- meaning that \\(M^X\\) could decide Y given an oracle for X.
+Not every language is decidable or recognizable relative to \\(A_{TM}\\)! Take the language \\(A_{TM}' = \{ <M^\bullet, w> : M^\bullet\\) is an oracle TM and \\(M^{A_{TM}}\\) accepts \\(w\}\\). This is not decidable relative to \\(A_{TM}\\) -- see the proof for \\(A_{TM}\\) undecidability and 'relativize' by giving all machines an \\(A_{TM}\\) oracle!
