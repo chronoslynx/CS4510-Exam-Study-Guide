@@ -134,21 +134,25 @@ Proof: recognizable \\(\Rightarrow\\) enumerable. Given TM M that recognizes L b
 For any string \\(w\in \Sigma^*\\) \\(E\\) eventually runs M for any desired finite number of steps.
 
 # Reductions
-Quick fact: the set of all languages is **not** countably infinite.
+Quick fact: the set of all languages is **not** countably infinite. See diagonalization proof notes
 
-Mapping reduction notes: if \\(A\leq_M B\\) then mapping function \\(f\\) has to fulfill: \\(w\in A \Leftrightarrow f(w)\in B\\). This converts an instance of \\(A\\) into an instance of \\(B\\).
+**Theorem**: \\(A\\) is decidable \\(\Leftrightarrow A,\overline{A}\\) are recognizable. This is why \\(\overline{A}_{TM}\\) is undecidable. Proof: run both recognizers in parallel to build decider
+
+**Turing reduction** \\(C\leq_T D\\). If \\(C\\) is undecidable then so too is \\(D\\), if \\(D\\) is decidable then so too is \\(C\\).
+
+**Computable Functions**: a function\\(f\\) is computable if there is a TM that, on every \\(w\in\Sigma^*\\) halts with just \\(f(w)\\) on its tape.
+
+**Mapping reduction** notes: if \\(A\leq_M B\\) then mapping function \\(f\\) has to fulfill: \\(w\in A \Leftrightarrow f(w)\in B\\). This converts an instance of \\(A\\) into an instance of \\(B\\). This also means that \\(f\\) converts an instance of \\(\overline{A}\\) to an instance of \\(\overline{B}\\)!
 
 If \\(B\\) above is recognizable/decidable then so too is \\(A\\). If \\(A\\) is unrecognizable/undecidable then so too is \\(B\\). However: **turing reductions are useless for proving unrecognizability!*
 
 Reglangs < CFLs < Decidable < Recognizable < All langs
 
-**Decidable**: pretty much anything involving a DFA, NFA. \\(A_{CFG},E_{CFG}\\)
+**Decidable**: \\(A_{DFA}\\), \\(E_{DFA}\\), \\(EQ_{DFA}\\), \\(A_{CFG},\\), \\(E_{CFG}\\), All CFLs
 
-**Undec**: \\(A_{TM},HALT_{TM}, \overline{E}_{TM}\\)\\(EQ_{CFG}\\)
+**Recog**: \\(A_{TM},HALT_{TM}\\), \\(\overline{E}_{TM}\\), \\(ALL_{CFG}\\), \\(EQ_{CFG}\\)
 
-**Unrec**: \\(\overline{A}_{TM}, E_{TM}, EQ_{TM}, \overline{EQ}_{TM}\\)
-
-Theorem: \\(L\\) decidable \\(\Leftrightarrow L,\overline{L}\\) are recognizable. Pf: run the two in parallel
+**Unrec**: \\(\overline{A}_{TM}\\), \\(E_{TM}\\), \\(EQ_{TM}\\), \\(\overline{EQ}_{TM}\\)
 
 \\(A_{TM}\leq_M HALT_{TM}\\), \\(A_{TM}\leq_T E_{TM}\\), \\(E_{TM}\leq_M EQ_{TM}\\), \\(A_{TM}\leq_M \overline{E}_{TM}\\), \\(A_{TM}\leq_M EQ_{TM}\\)
 \\(\overline{A}_{TM}\leq_M E_{TM} \leq_M EQ_{TM}\\)
@@ -166,6 +170,9 @@ Proof: Reduce from \\(A_{TM}\\). Define decider for \\(A_{TM}\\), where \\(M_{y/
 \\(E_{TM}\leq_M EQ_{TM}\\): have \\(EQ_{TM}\\) decider run a comparison on input \\(M\\) and a machine with an empty lang!
 ** All decidable languages reduce to each other except \\(\Sigma^*,\emptyset\\).
 
+**Busy Beaver**: \\(H_n = \{M : M\\) is TM, has \\(n\\) states and halts on \\(\epsilon\}\\)
+**Busy Beaver**: \\(BB(n) = max_{M\in H_n}(\#\\) of steps for \\(M(\epsilon))\\) is uncomputable -- there is no TM that on input \\(n\\) halts with a number \\(\geq BB(n)\\) on its tape. Proof showed that were there a machine that could compute \\(BB(n)\\) where n was the number of states in some TM that \\(A_{TM}\\) would be decidable (run M for up to n steps, look at result).
+
 **Interleaving trick**: For each 1,2,3... run \\(M\\) on the first NUM strings for up to NUM steps. If \\(M\\) ever accepts, BLAH.
 
 **Computation Histories**: Sequence of configurations for \\(M\\) on \\(2\\) \\(C_1,C_2,...C_l\\) where \\(C_1\\) is the initial configuration, and each \\(C_i\\) follows from \\(C_{i-1}\\) legally according to the rules of \\(M\\). Accepting histories are where \\(C_l\\) is an accepting configuration, and rejecting histories are \\(C_l\\) as a rejecting configuration.
@@ -174,13 +181,17 @@ Proof: Reduce from \\(A_{TM}\\). Define decider for \\(A_{TM}\\), where \\(M_{y/
 
 Let \\(M\\) be any TM computing a function \\(m:\Sigma^* * \Sigma^*\to \Sigma^*\\) which is machine * string to anything. There exists some machine \\(R\\) computing \\(r: \Sigma^*\to\Sigma^*\\) where \\(r(w) = m(<R>, w)\\) for all \\(w\\). In short: *we can write TMs that obtain their own descriptions*.
 
-Pf: \\(A_{TM}\\) undecidable - assume decider \\(H\\). Decider \\(B\\) for the barber machine: "On input \\(<M, w>\\): obtain \\(<B>\\) via recursion thm. Run \\(H\\) on \\(<B, w>\\) and output the opposite result"
+**Pf**: \\(A_{TM}\\) undecidable - assume decider \\(H\\). Decider \\(B\\) for the barber machine: "On input \\(<M, w>\\): obtain \\(<B>\\) via recursion thm. Run \\(H\\) on \\(<B, w>\\) and output the opposite result"
 
 We have above a machine that outputs the opposite of what it is supposed to output, and this doesn't work! \\(B\\) here does the opposite of itself.
 
-Pf: \\(MIN_{TM}\\) is unrecognizable. Assume for contradiction that \\(E\\) enumerates \\(MIN_{TM}\\). Consider \\(C\\): "On input \\(w\\): get \\(<C>\\) via recursion thm. Run \\(E\\) until it outputs some \\(<D>\\) that is longer than \\(<C>\\). Simulate \\(D\\) on \\(w\\)"
+**Pf**: \\(MIN_{TM}\\) is unrecognizable. Assume for contradiction that \\(E\\) enumerates \\(MIN_{TM}\\). Consider \\(C\\): "On input \\(w\\): get \\(<C>\\) via recursion thm. Run \\(E\\) until it outputs some \\(<D>\\) that is longer than \\(<C>\\). Simulate \\(D\\) on \\(w\\)"
 
 We have a direct contradiction here: \\(D\\) should be minimal, but \\(C\\) is shorter **and** is equivalent to \\(D\\)! Contradiction, \\(D\\) cannot then be minimal. \\(E\\) will eventually output such a \\(<D>\\) because \\(MIN_{TM}\\) is infinite.
+
+**Thunk**: \\(T_{M,w} =\\) "Ignore input, and (1) clear tape and write \\(w\\) to it (2) run \\(M\\) on \\(w\\)"
+
+**Replicating Machines**: \\(B=\\) "On input \\(<M>\\): compute and write \\(<T_{M,<M>}>\\) to tape, then halt".This machine outputs thunks that run a machine on its own description! \\(T_{B,<B>}\\) (created by running \\(B\\) on itself) replicates itself infinitely!
 
 ## Proof examples
 \\(A_{TM}\\): proof via diagonalization: assume some \\(H\\) decides \\(A_{TM}\\). Build a TM \\(D\\) such that "on input \\(<M>\\) run \\(H\\) on \\(<M, <M>\\) and output the opposite answer'. This is a decider because \\(H\\) is a decider -- \\(D\\) accepts all machines that reject when given their own description. What happens when we run \\(D\\) on \\(<D>\\)? We get a contradiciton: \\(D\\) accepts \\(<D>\Leftrightarrow H\\) rejects \\(<D, <D>>\Leftrightarrow D\\) rejects \\(<D>\\).
@@ -192,3 +203,21 @@ We have a direct contradiction here: \\(D\\) should be minimal, but \\(C\\) is s
 ## Reductions 'relative to...'
 'Y decidable relative to X means that Y can be decided given an Oracle for X -- meaning that \\(M^X\\) could decide Y given an oracle for X.
 Not every language is decidable or recognizable relative to \\(A_{TM}\\)! Take the language \\(A_{TM}' = \{ <M^\bullet, w> : M^\bullet\\) is an oracle TM and \\(M^{A_{TM}}\\) accepts \\(w\}\\). This is not decidable relative to \\(A_{TM}\\) -- see the proof for \\(A_{TM}\\) undecidability and 'relativize' by giving all machines an \\(A_{TM}\\) oracle!
+
+# Time Complexity
+
+Currently \\(P \subset NP\\), NPC is the intersection of NP and NP-Hard, NP-Hard is not all in NP
+
+\\(P\\) is the class of languages that are decidable in polynomial time by a deterministic, single-tape TM
+
+\\(NP\\) is the class of languages that are decidable in polynomial time on a nondeterministic TM. Alternatively: the class of languages that can be *verified* in polynomial time (given an input and a certificate)
+
+A language is NP-Complete if it is a) in NP and b) at least as hard as every other problem in NP; NP-Hard, so  \\(SAT\leq_P L\\). Note: a poly-time reduction has all the same decidability properties as a mapping reduction because it satisfies the criteria (assuming \\(A\leq_P B\\)) \\(w\in A \Leftrightarrow f(w)\in B\\)
+
+Example languages in P: all CFLs
+
+Example NP-Complete languages: 3SAT, SAT, 3CNF, CLIQUE, VERTEX-COVER, HAMPATH, SUBSETSUM
+
+Proving things are NP-Complete: use variable, clause gadgets when reducing from 3CNF to your new language!
+
+NP is closed under: \\(\cup, \circ\\) but NOT intersection! Take \\(L\in NP\\): create \\(L_0 = \{0w | w\in L\}\\) and \\(L_1 = \{1w | w\in L\}\\). \\(L_1\cap L_2 = \emptyset\\)
