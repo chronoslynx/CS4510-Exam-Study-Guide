@@ -5,6 +5,8 @@ latex footer:       x3-notes-end
 # Regular Languages
 A language is regular if and only if it is recognized by a DFA, NFA, or Regexp.
 
+Note: **ALL FINITE LANGUAGES ARE REGULAR**
+
 **DFA** \\(M = (Q, \Sigma, \delta, R, q_0 \in Q, F \subseteq Q)\\)
 
 **NFA** DFA but with epsilon transitions. DFA equivalent: each dfa state represents some subset of NFA states.
@@ -48,7 +50,7 @@ Construct a PDA from a CFG G with the same language:
     - if top of stack is a var \\(S\in V) pop it & nondeterministically choose a rule for S. Push the RHS of rule in reverse order on to the stack
     - if top of stack is a terminal, pop then match with next input symbol. If equivalent, continue, else *reject*
     - if top of stack is \$ and input is empty then enter accept state
-
+<!--\vfill\columnbreak-->
 Construct a CFG from a PDA P:
 
 - Grammar G has variables \\(A_{pq}\\) for all \\(p,q\in Q\\)
@@ -84,7 +86,7 @@ Can prove a language is not context free either by the pumping lemma or the clos
 - \\(\{ ww\, |\, w\in \{0,1\}^* \}\\) cannot pump string \\(w = 0^P1^P0^P1^P\\)
 - \\(\{ w\in \{a,b,c,d\}^* \}\\) where \\(\#as = \#bs, \#cs = \#ds\\) - proved through lemma with \\(\cap R = \{a^nb^nc^md^m|n,m\geq 0\}\\) \\(a^Pc^Pb^Pd^P\\)
 - \\(\{ w\in \{a,b,c\}^* \}\\) where \\(\#as = \#bs = \#cs\\) - in textbook problem 2.18b
-
+<!--\vfill\columnbreak-->
 # Turing Machines
 \\(M = (Q,\Sigma,\Gamma,\delta,q_0, q_{acc}, q_{rej})\\) Has a finite state control with infinite tape. Has read head, can move \\(L,R\\).
 
@@ -120,10 +122,11 @@ Proof of NTM and TM equivalence: 3-tape TM as above. If any simulated branch acc
 
 Why BFS instead of DFS for a NTM? Because DFS may go forever down a branch, and BFS ensures that the NTM will visit every node in the tree until it encounters and accepting configuration!
 
+<!--\newpage-->
 ## Enumerators
 An enumerator is a special type of TM with two tapes: one work tape (same as a normal tape) and one write-only printer (or output tape). Writes strings separated by a # to output tape. \\(L(E) = \{w\, :\, E\; outputs\; w\; eventually\}\\). A language is **enumerable** if it is the language of some enumerator. Enumerators do not necessarily halt.
 
-<!--\vfill \columnbreak-->
+
 ## Enumerabilty, Recognizability
 A language is *enumerable* \\(\Leftrightarrow\\) it is *recognizable*.
 
@@ -147,7 +150,7 @@ Quick fact: the set of all languages is **not** countably infinite. See diagonal
 If \\(B\\) above is recognizable/decidable then so too is \\(A\\). If \\(A\\) is unrecognizable/undecidable then so too is \\(B\\). However: **turing reductions are useless for proving unrecognizability!*
 
 Reglangs < CFLs < Decidable < Recognizable < All langs
-
+<!--\vfill\columnbreak-->
 **Decidable**: \\(A_{DFA}\\), \\(E_{DFA}\\), \\(EQ_{DFA}\\), \\(A_{CFG},\\), \\(E_{CFG}\\), All CFLs
 
 **Recog**: \\(A_{TM},HALT_{TM}\\), \\(\overline{E}_{TM}\\), \\(ALL_{CFG}\\), \\(EQ_{CFG}\\)
@@ -177,6 +180,7 @@ Proof: Reduce from \\(A_{TM}\\). Define decider for \\(A_{TM}\\), where \\(M_{y/
 
 **Computation Histories**: Sequence of configurations for \\(M\\) on \\(2\\) \\(C_1,C_2,...C_l\\) where \\(C_1\\) is the initial configuration, and each \\(C_i\\) follows from \\(C_{i-1}\\) legally according to the rules of \\(M\\). Accepting histories are where \\(C_l\\) is an accepting configuration, and rejecting histories are \\(C_l\\) as a rejecting configuration.
 
+<!--\vfill\columnbreak-->
 ## Recursion Theorem
 
 Let \\(M\\) be any TM computing a function \\(m:\Sigma^* * \Sigma^*\to \Sigma^*\\) which is machine * string to anything. There exists some machine \\(R\\) computing \\(r: \Sigma^*\to\Sigma^*\\) where \\(r(w) = m(<R>, w)\\) for all \\(w\\). In short: *we can write TMs that obtain their own descriptions*.
@@ -198,6 +202,8 @@ We have a direct contradiction here: \\(D\\) should be minimal, but \\(C\\) is s
 
 **Diagonalization**: in essence construct a new valid machine or sequence that contradicts itself or the proof mechanism. Proving that languages are not countably infinite: Assume we can list all subsets of \\(\{0,1\}^* : S_1,S_2...\\). We can construct a new subset \\(S\\) that we've missed as follows: for each \\(i\in \mathcal{N}\\) if \\(w_i\notin S_i\\) then \\(w_i\in S\\). Clearly \\(S\subseteq \{0,1\}^*\\) but \\(\forall i : S\neq S_i\\). We have here a contradiction.
 
+<!--\vfill\columnbreak-->
+
 \\(ALL_{CFG} = \{ <G> : G\\) is a CFG and \\(L(G)=\Sigma^* \}\\). Proof: reduce from \\(A_{TM}\\), design a CFG \\(G\\) that generates all strings iff \\(M\\) does not accept \\(w\\) otherwise do not generate the accepting configuration history for it. \\(G\\) generates all strings that a) don't start with \\(C_1\\) b) don't end with an accepting configuration or c) where some \\(C_i\\) does not follow legally from its prior. If \\(M\\) rejects \\(w\\) then there is a string that exists that \\(G\\) does not generate: the string beginning with \\(C_1\\), ending in an accepting configuration, and where each \\(C_i\\) is built legally upon its predecessor.
 
 ## Reductions 'relative to...'
@@ -210,14 +216,16 @@ Currently \\(P \subset NP\\), NPC is the intersection of NP and NP-Hard, NP-Hard
 
 \\(P\\) is the class of languages that are decidable in polynomial time by a deterministic, single-tape TM
 
-\\(NP\\) is the class of languages that are decidable in polynomial time on a nondeterministic TM. Alternatively: the class of languages that can be *verified* in polynomial time (given an input and a certificate)
+\\(NP\\) is the class of languages that are decidable in polynomial time on a nondeterministic TM. Alternatively: the class of languages that can be *verified* in polynomial time (given an input and a certificate). NP is closed under \\(\circ, \cap, \cup\\)
 
 A language is NP-Complete if it is a) in NP and b) at least as hard as every other problem in NP; NP-Hard, so  \\(SAT\leq_P L\\). Note: a poly-time reduction has all the same decidability properties as a mapping reduction because it satisfies the criteria (assuming \\(A\leq_P B\\)) \\(w\in A \Leftrightarrow f(w)\in B\\)
 
 Example languages in P: all CFLs
 
+Example NP-Hard (but not NPC) languages: \\(HALT_{TM}\\)
+
 Example NP-Complete languages: 3SAT, SAT, 3CNF, CLIQUE, VERTEX-COVER, HAMPATH, SUBSETSUM
 
 Proving things are NP-Complete: use variable, clause gadgets when reducing from 3CNF to your new language!
 
-NP is closed under: \\(\cup, \circ\\) but NOT intersection! Take \\(L\in NP\\): create \\(L_0 = \{0w | w\in L\}\\) and \\(L_1 = \{1w | w\in L\}\\). \\(L_1\cap L_2 = \emptyset\\)
+NP-Complete is closed under: \\(\cup, \circ\\) but NOT intersection! Take \\(L\in NP\\): create \\(L_0 = \{0w | w\in L\}\\) and \\(L_1 = \{1w | w\in L\}\\). \\(L_1\cap L_2 = \emptyset\\)
