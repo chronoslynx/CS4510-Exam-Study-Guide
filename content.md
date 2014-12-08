@@ -214,18 +214,37 @@ Not every language is decidable or recognizable relative to \\(A_{TM}\\)! Take t
 
 Currently \\(P \subset NP\\), NPC is the intersection of NP and NP-Hard, NP-Hard is not all in NP
 
-\\(P\\) is the class of languages that are decidable in polynomial time by a deterministic, single-tape TM
+\\(TIME(t(n))\\) is the collection of languages that are decidable by an \\(O(t(n))\\) time turing machine
 
-\\(NP\\) is the class of languages that are decidable in polynomial time on a nondeterministic TM. Alternatively: the class of languages that can be *verified* in polynomial time (given an input and a certificate). NP is closed under \\(\circ, \cap, \cup\\)
+\\(P\\) is the class of languages that are decidable in polynomial time by a deterministic, single-tape TM; \\(P = \bigcup_{k} TIME(n^k)\\)
+
+\\(NTIME(t(n))\\) is the collection of languages that are decidable by an \\(O(t(n))\\) time nondeterministic TM
+
+\\(NP\\) is the class of languages that are decidable in polynomial time by a nondeterministic TM. \\(NP = \bigcup_{k} NTIME(t(n))\\)
+Alternatively: the class of languages that can be *verified* in polynomial time (given an input and a certificate/finding/guessing an answer and checking). NP is closed under \\(\circ, \cap, \cup\\)
+
+
+Let \\(t(n)\geq n\\). Every multitape turing machine with run-time \\(t(n)\\) has an equivalent single-tape turing machine with run-time \\(O(t^2(n))\\)
+
+
+Every nondeterministic turing machine has an equivalent \\(2^{O(t(n))}\\) single-tape turing machine (exponential time!)
+
 
 A language is NP-Complete if it is a) in NP and b) at least as hard as every other problem in NP; NP-Hard, so  \\(SAT\leq_P L\\). Note: a poly-time reduction has all the same decidability properties as a mapping reduction because it satisfies the criteria (assuming \\(A\leq_P B\\)) \\(w\in A \Leftrightarrow f(w)\in B\\)
 
-Example languages in P: all CFLs
+
+Example languages in P: all CFLs, PATH (is there a path in a graph from \\(s\to t\\)), RELPRIME (are x,y relatively prime? e.g. largest num that divides both is 1), \\(A_{DFA}, E_{DFA}. EQ_{DFA}\\)
+
 
 Example NP-Hard (but not NPC) languages: \\(HALT_{TM}\\)
 
+
 Example NP-Complete languages: 3SAT, SAT, 3CNF, CLIQUE, VERTEX-COVER, HAMPATH, SUBSETSUM
+
 
 Proving things are NP-Complete: use variable, clause gadgets when reducing from 3CNF to your new language!
 
+
 NP-Complete is closed under: \\(\cup, \circ\\) but NOT intersection! Take \\(L\in NP\\): create \\(L_0 = \{0w | w\in L\}\\) and \\(L_1 = \{1w | w\in L\}\\). \\(L_1\cap L_2 = \emptyset\\)
+
+**For run-time analysis**: if you use other machines that have a run-time, list it! if it's polynomial then say its runtime is \\(p^a\\) so you can do things like "This new machine runs in time \\(O(n^{max(a, b)})\\) as it runs two sub-machines with run times \\(p^a, p^b\\) respectively so its run-time is bounded by theirs"
